@@ -1,0 +1,16 @@
+{
+  "extends": [
+    "@kontent-ai"
+  ],
+
+  "overrides": [
+    {
+      "files": ["src/**/*.ts"],
+      "excludedFiles": ["src/log.ts", "vite.config.ts"]
+    }
+  ],
+
+  "parserOptions": {
+    "project": ["tsconfig.app.json"]
+  }
+}
