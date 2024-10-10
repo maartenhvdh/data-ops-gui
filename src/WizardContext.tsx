@@ -1,5 +1,6 @@
 import { ManagementClient } from "@kontent-ai/management-sdk";
 import React, { createContext, useState } from "react";
+import { MenuOptionTitle } from "./utils/navigation";
 
 const syncEntityChoices = [
   "contentTypes",
@@ -16,7 +17,7 @@ const syncEntityChoices = [
 export type SyncEntityName = (typeof syncEntityChoices)[number];
 
 interface WizardContextProps {
-  action?: string;
+  action?: MenuOptionTitle;
   sourceEnvironmentId?: string;
   targetEnvironmentId?: string;
   sourceClient?: ManagementClient;
@@ -25,7 +26,7 @@ interface WizardContextProps {
   sourceApiKey?: string;
   targetApiKey?: string;
   syncModelEntities: SyncEntityName[];
-  setAction: (action: string) => void;
+  setAction: (action: MenuOptionTitle) => void;
   setSourceEnvironmentId: (id: string) => void;
   setTargetEnvironmentId: (id: string) => void;
   setSourceClient: (client: ManagementClient) => void;
@@ -39,7 +40,7 @@ interface WizardContextProps {
 export const WizardContext = createContext<WizardContextProps>({} as WizardContextProps);
 
 export const WizardProvider: React.FC<any> = ({ children }) => {
-  const [action, setAction] = useState<string>();
+  const [action, setAction] = useState<MenuOptionTitle>();
   const [sourceEnvironmentId, setSourceEnvironmentId] = useState<string>();
   const [targetEnvironmentId, setTargetEnvironmentId] = useState<string>();
   const [sourceClient, setSourceClient] = useState<ManagementClient>();

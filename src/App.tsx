@@ -9,20 +9,24 @@ import { SyncEntities } from "./components/sync/SyncEntities";
 import { SyncSource } from "./components/sync/SyncSource";
 import { SyncTarget } from "./components/sync/SyncTarget";
 import { WizardProvider } from "./WizardContext";
+import { Header } from "./components/Header";
 
 const App: React.FC = () => (
-  <WizardProvider>
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/sync/source" element={<SyncSource />} />
-        <Route path="/sync/target" element={<SyncTarget />} />
-        <Route path="/sync/entities" element={<SyncEntities />} />
-        <Route path="/sync/diff" element={<SyncDiff />} />
-        {/* remaining routes */}
-      </Routes>
-    </Router>
-  </WizardProvider>
+  <div className="content">
+    <WizardProvider>
+      <Header />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/sync/source" element={<SyncSource />} />
+          <Route path="/sync/target" element={<SyncTarget />} />
+          <Route path="/sync/entities" element={<SyncEntities />} />
+          <Route path="/sync/diff" element={<SyncDiff />} />
+          {/* remaining routes */}
+        </Routes>
+      </Router>
+    </WizardProvider>
+  </div>
 );
 
 export default App;

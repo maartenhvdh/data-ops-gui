@@ -3,6 +3,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { WizardContext } from "../../WizardContext";
+import { StepNavigation } from "../menu/StepNavigation";
+import { EnvironmentForm } from "../forms/EnvironmentForm";
+import { FileForm } from "../forms/FileForm";
 
 export const SyncSource: React.FC = () => {
   const {
@@ -51,67 +54,41 @@ export const SyncSource: React.FC = () => {
     navigate("/sync/target");
   };
 
+  const idLabelText = "Source environment ID:";
+  const apiKeyLabelText = "Source API key:";
+
+  const formProps = {
+    loading,
+    idLabelText,
+    apiKeyLabelText,
+    environmentName,
+    projectName,
+    environmentId: sourceEnvironmentId,
+    apiKey: sourceApiKey,
+    setEnvironmentId: setSourceEnvironmentId,
+    setApiKey: setSourceApiKey,
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} autoComplete="off">
       <h2>Sync - Provide Source Information</h2>
-      <label>
+      <br />
+      <label className="switch">
         <input
           type="checkbox"
           checked={useModelFile}
           onChange={() => setUseModelFile(!useModelFile)}
         />
-        Sync from existing model file
+        <span className="slider"></span>
+        Sync from an existing model file
       </label>
 
-      {useModelFile
-        ? (
-          <div>
-            <label>
-              Choose Model File:
-              <input
-                type="file"
-                onChange={(e) => setSourceFile(e.target.files ? e.target.files[0] : null)}
-                required
-              />
-            </label>
-          </div>
-        )
-        : (
-          <>
-            <div>
-              <label>
-                Source Environment ID:
-                <input
-                  type="text"
-                  value={sourceEnvironmentId || ""}
-                  onChange={(e) => setSourceEnvironmentId(e.target.value)}
-                  required
-                />
-              </label>
-            </div>
-            <div>
-              <label>
-                Source API Key:
-                <input
-                  type="password"
-                  value={sourceApiKey || ""}
-                  onChange={(e) => setSourceApiKey(e.target.value)}
-                  required
-                />
-              </label>
-            </div>
-            {loading ? <p>Loading project info...</p> : projectName && environmentName
-              ? (
-                <p>
-                  Project: {projectName}, Environment: {environmentName}
-                </p>
-              )
-              : null}
-          </>
-        )}
-      <div>
-        <button type="submit">Next</button>
-      </div>
+      {useModelFile ? (
+        <FileForm setFile={setSourceFile} />
+      ) : (
+        <EnvironmentForm {...formProps} />
+      )}
+      <StepNavigation navigate={navigate} />
     </form>
   );
 };
