@@ -1,87 +1,51 @@
-import { NavigateFunction } from "react-router-dom";
-
-export type MenuOption = {
-  title: MenuOptionTitle;
+export type MenuAction = {
+  title: MenuActionTitle;
   tooltip: string;
-  subMenuOptions?: MenuOption[];
+  subMenuActions?: MenuAction[];
   route?: string;
 };
 
-export type MenuOptionTitle =
+export type MenuActionTitle =
   | "Sync model"
-  | "Synchronize"
-  | "Create SyncModel"
+  | "Run sync"
+  | "Create sync snapshot"
   | "Sync content"
-  | "Export"
-  | "Import"
+  | "Environment Backup"
+  | "Environment Restore"
   | "Clean";
 
-export const handleSelectAction = (
-  option: MenuOption,
-  setAction: (action: MenuOptionTitle) => void,
-  navigate: NavigateFunction
-) => {
-  if (option.subMenuOptions) {
-    setAction(option.title);
-  } else if (typeof option.route === "string") {
-    navigate(option.route);
-  } else {
-    alert("This feature is not implemented yet.");
-  }
-};
-
-export const menuOptions: ReadonlyMap<MenuOptionTitle, MenuOption> = new Map([
-  [
-    "Sync model",
-    {
-      title: "Sync model",
-      tooltip:
-        "Synchronize models between environments or export a SyncModel for later use.",
-      subMenuOptions: [
-        {
-          title: "Synchronize",
-          route: "sync/source",
-          tooltip:
-            "Synchronize content models between two environments or between a previously generated SyncModel and a target environment.",
-        },
-        {
-          title: "Create SyncModel",
-          tooltip:
-            "Creates a SyncModel of the environment of your choice and exports it as a .zip file for later synchronization.",
-        },
-      ],
-    },
-  ],
-  [
-    "Sync content",
-    {
-      title: "Sync content",
-      tooltip:
-        "⚠️ Feature not yet available.\n\nSynchronize content between two environments.",
-    },
-  ],
-  [
-    "Export",
-    {
-      title: "Export",
-      tooltip:
-        "⚠️ Feature not yet available.\n\nExport environment data to a .zip file.",
-    },
-  ],
-  [
-    "Import",
-    {
-      title: "Import",
-      tooltip:
-        "⚠️ Feature not yet available.\n\nImport environment data from a previously exported .zip file.",
-    },
-  ],
-  [
-    "Clean",
-    {
-      title: "Clean",
-      tooltip:
-        "⚠️ Feature not yet available.\n\nRemove all entities from an environment to an extent of MAPI.",
-    },
-  ],
-]);
+export const mainMenu: ReadonlyArray<MenuAction> = [
+  {
+    title: "Sync model",
+    tooltip: "Synchronize models between environments or create a sync snapshot for later use.",
+    subMenuActions: [
+      {
+        title: "Run sync",
+        route: "sync/source",
+        tooltip:
+          "Synchronize content models between two environments or between a previously generated snapshot and a target environment.",
+      },
+      {
+        title: "Create sync snapshot",
+        tooltip:
+          "Creates a snapshot of an environment's content model and saves it as a .zip file for later synchronization.",
+      },
+    ],
+  },
+  {
+    title: "Sync content",
+    tooltip: "Synchronize content between two environments.",
+  },
+  {
+    title: "Environment Backup",
+    tooltip: "Backup all environment data to a .zip file.",
+  },
+  {
+    title: "Environment Restore",
+    tooltip: "Restore environment from an existing backup.",
+  },
+  {
+    title: "Clean",
+    tooltip: "Remove or deactivate all entities in an environment.",
+  },
+];

@@ -4,8 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { WizardContext } from "../../WizardContext";
 
 export const SyncDiff: React.FC = () => {
-  const { /* sourceClient, targetClient, */ syncModelEntities } = useContext(WizardContext);
-  const [diffResult, setDiffResult] = useState<any>();
+  const { targetEnvironmentId, sourceEnvironmentId, targetApiKey, sourceApiKey, syncModelEntities } = useContext(
+    WizardContext,
+  );
+  const [diffResult, setDiffResult] = useState<string>();
   const [loading, setLoading] = useState<boolean>(true);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [syncing, setSyncing] = useState<boolean>(false);
@@ -18,10 +20,10 @@ export const SyncDiff: React.FC = () => {
       try {
         // TODO: diff generation goes here
         await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate delay
-        setDiffResult({ message: "Diff generated successfully", changes: [] });
+        // const diff = await syncDiff(useContext(WizardContext))
       } catch (error) {
         console.error("Error generating diff", error);
-        setDiffResult({ error: "Failed to generate diff" });
+        setDiffResult("Failed to generate diff.");
       } finally {
         setLoading(false);
       }
@@ -47,8 +49,9 @@ export const SyncDiff: React.FC = () => {
   if (loading) {
     return (
       <div>
-        <h2>Generating Diff</h2>
+        <h2>Generating diff</h2>
         <p>Generating diff, please wait...</p>
+        <div className="loader"></div>
       </div>
     );
   }
@@ -66,12 +69,12 @@ export const SyncDiff: React.FC = () => {
   return (
     <div>
       <h2>Diff Result</h2>
-      {diffResult.error ? <p>Error: {diffResult.error}</p> : <pre>{JSON.stringify(diffResult, null, 2)}</pre>}
       <div>
-        <button type="button" onClick={() => navigate(-1)}>Back</button>
-        <button type="button" onClick={() => setShowModal(true)}>Sync</button>
+        <button className="button" type="button" onClick={() => navigate(-1)}>Back</button>
+        <button className="button secondary" type="button" onClick={() => setShowModal(true)}>Sync</button>
       </div>
-
+      <iframe>
+      </iframe>
       {showModal && (
         <div className="modal">
           <div className="modal-content">
@@ -79,8 +82,7 @@ export const SyncDiff: React.FC = () => {
             <p>
               Sync operation may result in irreversible changes to the target environment. Do you want to continue?
             </p>
-            <button onClick={() => setShowModal(false)}>Cancel</button>
-            <button onClick={handleSync}>Continue</button>
+            <button className="button destructive" onClick={handleSync}>Continue</button>
           </div>
         </div>
       )}

@@ -3,13 +3,13 @@ import "@kontent-ai/stylekit";
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
+import { Header } from "./components/Header";
 import Home from "./components/Home";
 import { SyncDiff } from "./components/sync/SyncDiff";
 import { SyncEntities } from "./components/sync/SyncEntities";
 import { SyncSource } from "./components/sync/SyncSource";
 import { SyncTarget } from "./components/sync/SyncTarget";
 import { WizardProvider } from "./WizardContext";
-import { Header } from "./components/Header";
 
 const App: React.FC = () => (
   <div className="content">

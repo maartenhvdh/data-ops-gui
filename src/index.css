@@ -39,6 +39,12 @@
   flex-direction: row;
 }
 
+.entity-columns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .menu-column {
   display: flex;
   flex-direction: column;
@@ -111,7 +117,6 @@ form .input {
   min-width: 3em;
 }
 
-
 input::file-selector-button {
   height: 36px;
   font-size: 12px;
@@ -129,6 +134,42 @@ input::file-selector-button {
   line-height: 18px;
   transition: all 250ms cubic-bezier(0.23, 1, 0.32, 1);
   margin-right: 30px;
+}
+
+.tooltip {
+  padding-top: 10px;
+  max-width: 400px;
+  color: grey;
+  /* opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s ease, visibility 1s ease; */
+}
+
+.tooltip-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* .button-with-tooltip {
+  display: flex;
+  width: 100%;
+}
+
+.menu-wrapper {
+  display: flex;
+  position: relative;
+} */
+
+.infobox {
+  margin-right: 15px;
+  align-self: flex-end;
+  font-size: small;
+}
+
+.centered {
+  margin: auto;
+  width: 50%;
+  text-align: center;
 }
 
 

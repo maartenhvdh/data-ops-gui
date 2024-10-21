@@ -1,13 +1,12 @@
-import { MenuSelection } from "./menu/MenuSelection";
-import { SubMenuSelection } from "./menu/SubMenuSelection";
+import { mainMenu } from "../utils/navigation";
+import { Menu } from "./menu/Menu";
 
 const Home: React.FC = () => {
   return (
     <>
       <h2>Select an Action</h2>
       <div className="menu">
-        <MenuSelection />
-        <SubMenuSelection />
+        <Menu actions={[...mainMenu]} />
       </div>
     </>
   );
