@@ -5,12 +5,12 @@
 
   "overrides": [
     {
-      "files": ["src/**/*.ts"],
+      "files": ["src/**/*.ts", "netlify/**/*.ts"],
       "excludedFiles": ["src/log.ts", "vite.config.ts"]
     }
   ],
 
   "parserOptions": {
-    "project": ["tsconfig.app.json"]
+    "project": ["tsconfig.app.json", "tsconfig.node.json"]
   }
 }
