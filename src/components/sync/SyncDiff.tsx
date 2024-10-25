@@ -1,93 +1,171 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { WizardContext } from "../../WizardContext";
+import { Loader } from "../Loader";
 
 export const SyncDiff: React.FC = () => {
-  const { targetEnvironmentId, sourceEnvironmentId, targetApiKey, sourceApiKey, syncModelEntities } = useContext(
-    WizardContext,
-  );
-  const [diffResult, setDiffResult] = useState<string>();
-  const [loading, setLoading] = useState<boolean>(true);
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [syncing, setSyncing] = useState<boolean>(false);
-  const [syncResult, setSyncResult] = useState<string>();
+  const {
+    targetEnvironmentId,
+    sourceEnvironmentId,
+    targetApiKey,
+    sourceApiKey,
+    syncModelEntities,
+  } = useContext(WizardContext);
+  const [loading, setLoading] = useState<boolean>();
+  const [showWarning, setShowWarning] = useState<boolean>(false);
+  const [error, setError] = useState<string>();
+  const [success, setSuccess] = useState<boolean>();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  useEffect(() => {
-    const generateDiff = async () => {
-      setLoading(true);
-      try {
-        // TODO: diff generation goes here
-        await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate delay
-        // const diff = await syncDiff(useContext(WizardContext))
-      } catch (error) {
-        console.error("Error generating diff", error);
-        setDiffResult("Failed to generate diff.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    generateDiff();
-  }, [syncModelEntities]);
+  const diffResult = location.state?.diffResult;
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  const handleSync = async () => {
-    setShowModal(false);
-    setSyncing(true);
+  const runSync = async () => {
+    setError(undefined);
+    setLoading(true);
     try {
-      // TODO: sync trigger goes here
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      setSyncResult("Sync completed successfully");
+      const response = await fetch("/.netlify/functions/sync", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sourceEnvironmentId,
+          sourceApiKey,
+          targetEnvironmentId,
+          targetApiKey,
+          entities: syncModelEntities,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(JSON.stringify(errorData) || "Unknown error encountered.");
+      }
+
+      setSuccess(true);
     } catch (error) {
-      console.error("Error during sync", error);
-      setSyncResult("Sync failed");
+      console.error(error);
+      setError(JSON.stringify(error));
     } finally {
-      setSyncing(false);
+      setLoading(false);
     }
   };
 
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data && event.data.type === "setHeight") {
+        const newHeight = event.data.height;
+        if (iframeRef.current) {
+          iframeRef.current.style.height = `${newHeight}px`;
+        }
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+
+    return () => {
+      window.removeEventListener("message", handleMessage);
+    };
+  }, []);
+
   if (loading) {
     return (
-      <div>
-        <h2>Generating diff</h2>
-        <p>Generating diff, please wait...</p>
-        <div className="loader"></div>
+      <div className="grid loading-message">
+        <div className="centered">
+          <Loader
+            title="Syncing Content Model"
+            message="Content model synchronization in progress. Please don't close this window."
+          />
+        </div>
       </div>
     );
   }
 
-  if (syncResult) {
+  if (error) {
+    return (
+      <div className="grid result-message">
+        <div className="centered">
+          <h2>Model sync finished with errors</h2>
+          <div className="section red">{error}</div>
+          <button type="button" className="button error-back-button" onClick={() => navigate("/sync/entities")}>
+            Regenerate diff
+          </button>
+          <button type="button" className="button error-back-button secondary" onClick={() => navigate("/")}>
+            Back to main menu
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (success) {
+    return (
+      <div className="grid result-message">
+        <div className="centered">
+          <h2>Model sync finished successfully</h2>
+          <button type="button" className="button spaced-5" onClick={() => navigate("/sync/entities")}>
+            Regenerate diff
+          </button>
+          <button type="button" className="button spaced-5 secondary" onClick={() => navigate("/")}>
+            Back to main menu
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!diffResult) {
     return (
       <div>
-        <h2>Sync Result</h2>
-        <p>{syncResult}</p>
-        <button onClick={() => navigate("/")}>Return to Home</button>
+        <h2>No Diff Available</h2>
+        <p>No diff result was found. Please start the operation from the beginning.</p>
+        <button className="button" onClick={() => navigate("/")}>
+          Back to main menu
+        </button>
       </div>
     );
   }
 
   return (
-    <div>
-      <h2>Diff Result</h2>
+    <div id="syncdiff">
       <div>
-        <button className="button" type="button" onClick={() => navigate(-1)}>Back</button>
-        <button className="button secondary" type="button" onClick={() => setShowModal(true)}>Sync</button>
+        <button className="button" type="button" onClick={() => navigate(-1)}>
+          Back
+        </button>
+        <button
+          className="button secondary run-sync"
+          type="button"
+          onClick={() => setShowWarning(true)}
+        >
+          Run Sync
+        </button>
       </div>
-      <iframe>
-      </iframe>
-      {showModal && (
+      {showWarning && (
         <div className="modal">
           <div className="modal-content">
             <h3>Confirm Sync Operation</h3>
             <p>
               Sync operation may result in irreversible changes to the target environment. Do you want to continue?
             </p>
-            <button className="button destructive" onClick={handleSync}>Continue</button>
+            <button
+              className="button destructive"
+              onClick={runSync}
+            >
+              Continue
+            </button>
           </div>
         </div>
       )}
-
-      {syncing && <p>Syncing, please wait...</p>}
+      <iframe
+        id="diffFrame"
+        srcDoc={diffResult}
+        title="Diff Result"
+        sandbox="allow-scripts"
+        ref={iframeRef}
+      />
     </div>
   );
 };

@@ -9,7 +9,7 @@ type StepNavigationProps = {
 
 export const StepNavigation: React.FC<StepNavigationProps> = (props) => (
   <div className="step-navigation">
-    <button className="button" onClick={() => props.navigate(-1)}>
+    <button className="button" type="button" onClick={() => props.navigate(-1)}>
       {props.previousButtonText ?? "Previous"}
     </button>
     <button className="button secondary" type="submit">
