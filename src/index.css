@@ -22,6 +22,7 @@
   min-height: 550px;
   position: relative;
   font-size: 1rem;
+  margin: auto;
 }
 
 /* Adjust styles for larger screens */
@@ -43,6 +44,13 @@
   .infobox {
     margin-bottom: 1em;
   }
+}
+
+.content iframe {
+  width: 124%;
+  margin-left: -12%;
+  border: none;
+  overflow: 'hidden';
 }
 
 .title {
@@ -185,6 +193,34 @@ input::file-selector-button {
   text-align: center;
 }
 
+.centered .loader {
+  margin: auto;
+}
+
+.run-sync {
+  margin-left: 10px;
+}
+
+.error-box {
+  color: var(--red);
+  margin-top: 10px;
+}
+
+.grid {
+  display: grid;
+}
+
+.select-all {
+  margin-top: 20px;
+}
+
+.spaced-5 {
+  margin: 5px;
+}
+
+.result-message, .loading-message {
+  margin-top: 10%;
+}
 
 
 

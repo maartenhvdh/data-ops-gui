@@ -13,6 +13,7 @@
     "build:functions": "tsc -p src/functions/tsconfig.json",
     "preview": "vite preview",
     "lint": "eslint . --ext .ts,.tsx src/",
+    "lint:fix": "eslint . --fix --ext .ts,.tsx src/",
     "fmt": "dprint fmt",
     "fmt:check": "dprint check"
   },
