@@ -22,12 +22,12 @@ const getProjectEnvironmentClient = async (
 };
 
 export const useEnvironmentData = (
-  setSourceClient: (client: any) => void,
+  setClient: (client: any) => void,
+  setEnvName: (name: string) => void,
   environmentId?: string,
   apiKey?: string,
 ) => {
   const [projectName, setProjectName] = useState<string | undefined>();
-  const [environmentName, setEnvironmentName] = useState<string | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -37,24 +37,22 @@ export const useEnvironmentData = (
         try {
           const { projectName, environmentName, client } = await getProjectEnvironmentClient(apiKey, environmentId);
           setProjectName(projectName);
-          setEnvironmentName(environmentName);
-          setSourceClient(client);
+          setEnvName(environmentName);
+          setClient(client);
         } catch (error) {
           console.error("Failed to fetch project info", error);
           setProjectName(undefined);
-          setEnvironmentName(undefined);
         } finally {
           setLoading(false);
         }
       } else {
         // Clear data if conditions are not met
         setProjectName(undefined);
-        setEnvironmentName(undefined);
       }
     };
 
     fetchEnvironmentData();
-  }, [environmentId, apiKey, setSourceClient]);
+  }, [environmentId, apiKey, setClient]);
 
-  return { projectName, environmentName, loading };
+  return { projectName, loading };
 };

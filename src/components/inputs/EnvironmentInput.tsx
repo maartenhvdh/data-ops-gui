@@ -10,6 +10,7 @@ type EnvironmentInputProps = {
   environmentId?: string;
   apiKey?: string;
   setEnvironmentId: (id: string) => void;
+  setEnvironmentName: (name: string) => void;
   setApiKey: (key: string) => void;
 };
 

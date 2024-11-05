@@ -9,11 +9,13 @@ import { StepNavigation } from "../menu/StepNavigation";
 export const SyncTarget: React.FC = () => {
   const {
     targetEnvironmentId,
-    setTargetEnvironmentId,
     targetApiKey,
+    sourceApiKey,
+    targetEnvName,
+    setTargetEnvironmentId,
     setTargetApiKey,
     setTargetClient,
-    sourceApiKey,
+    setTargetEnvName,
   } = useContext(WizardContext);
   const [apiKeysMatch, setApiKeysMatch] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -23,8 +25,9 @@ export const SyncTarget: React.FC = () => {
     setApiKeysMatch(!apiKeysMatch);
   };
 
-  const { projectName, environmentName, loading } = useEnvironmentData(
+  const { projectName, loading } = useEnvironmentData(
     setTargetClient,
+    setTargetEnvName,
     targetEnvironmentId,
     targetApiKey,
   );
@@ -41,13 +44,14 @@ export const SyncTarget: React.FC = () => {
     loading,
     idLabelText,
     apiKeyLabelText,
-    environmentName,
+    environmentName: targetEnvName,
     projectName,
     environmentId: targetEnvironmentId,
     apiKey: targetApiKey,
+    showApiKey: !apiKeysMatch,
     setEnvironmentId: setTargetEnvironmentId,
     setApiKey: setTargetApiKey,
-    showApiKey: !apiKeysMatch,
+    setEnvironmentName: setTargetEnvName,
   };
 
   return (

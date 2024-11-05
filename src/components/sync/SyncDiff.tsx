@@ -11,6 +11,8 @@ export const SyncDiff: React.FC = () => {
     targetApiKey,
     sourceApiKey,
     syncModelEntities,
+    sourceEnvName,
+    targetEnvName,
   } = useContext(WizardContext);
   const [loading, setLoading] = useState<boolean>();
   const [showWarning, setShowWarning] = useState<boolean>(false);
@@ -140,13 +142,20 @@ export const SyncDiff: React.FC = () => {
           type="button"
           onClick={() => setShowWarning(true)}
         >
-          Run Sync
+          Review & Sync
         </button>
       </div>
       {showWarning && (
         <div className="modal">
           <div className="modal-content">
             <h3>Confirm Sync Operation</h3>
+            <p>
+              You're about to sync the following entities from <strong>{sourceEnvName}</strong> to{" "}
+              <strong>{targetEnvName}</strong>:
+            </p>
+            <ul>
+              {syncModelEntities.map(e => <li>{e}</li>)}
+            </ul>
             <p>
               Sync operation may result in irreversible changes to the target environment. Do you want to continue?
             </p>

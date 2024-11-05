@@ -10,17 +10,20 @@ import { StepNavigation } from "../menu/StepNavigation";
 export const SyncSource: React.FC = () => {
   const {
     sourceEnvironmentId,
-    setSourceEnvironmentId,
     sourceApiKey,
+    sourceEnvName,
+    setSourceEnvironmentId,
     setSourceApiKey,
+    setSourceEnvName,
     setSourceFile,
     setSourceClient,
   } = useContext(WizardContext);
   const [useModelFile, setUseModelFile] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const { projectName, environmentName, loading } = useEnvironmentData(
+  const { projectName, loading } = useEnvironmentData(
     setSourceClient,
+    setSourceEnvName,
     sourceEnvironmentId,
     sourceApiKey,
   );
@@ -37,13 +40,14 @@ export const SyncSource: React.FC = () => {
     loading,
     idLabelText,
     apiKeyLabelText,
-    environmentName,
     projectName,
+    environmentName: sourceEnvName,
     environmentId: sourceEnvironmentId,
     apiKey: sourceApiKey,
+    showApiKey: true,
     setEnvironmentId: setSourceEnvironmentId,
     setApiKey: setSourceApiKey,
-    showApiKey: true,
+    setEnvironmentName: setSourceEnvName,
   };
 
   return (
