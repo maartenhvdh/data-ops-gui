@@ -9,7 +9,7 @@ export type MenuActionTitle =
   | "Sync model"
   | "Run sync"
   | "Create sync snapshot"
-  | "Sync content"
+  | "Migrate content"
   | "Environment Backup"
   | "Environment Restore"
   | "Clean";
@@ -33,8 +33,8 @@ export const mainMenu: ReadonlyArray<MenuAction> = [
     ],
   },
   {
-    title: "Sync content",
-    tooltip: "Synchronize content between two environments.",
+    title: "Migrate content",
+    tooltip: "Migrate content between two environments.",
   },
   {
     title: "Environment Backup",
