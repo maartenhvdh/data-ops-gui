@@ -5,7 +5,7 @@ export const Header: React.FC = () => {
         <img src="https://avatars.githubusercontent.com/u/150392983" alt="Kontent.ai" title="Kontent.ai" />
       </div>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div>DataOps</div>
+        <div>Kontent.ai | data-ops</div>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
-# Kontent.ai DataOps interface
+# Kontent.ai data-ops interface
 
 > [!IMPORTANT]  
-> This tool is currently under development. Some DataOps features can result in irreversible changes to your Kontent.ai environment, make sure you familiarize yourself with [data-ops CLI documentation](https://github.com/kontent-ai/data-ops) and use the tool at your own risk.
+> This tool is currently under development. Some data-ops features can result in irreversible changes to your Kontent.ai environment, make sure you familiarize yourself with [data-ops CLI documentation](https://github.com/kontent-ai/data-ops) and use the tool at your own risk.
 > 
 > Currently available features:
 > * syncModel > run (only between environments)
