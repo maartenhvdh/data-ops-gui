@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { DiffResponse, injectResizeScript, removeElementFromHtml } from "../../utils/sync";
+import { DiffResponse, injectScripts, removeElementFromHtml } from "../../utils/sync";
 import { SyncEntityName, WizardContext } from "../../WizardContext";
 import { Loader } from "../Loader";
 import { StepNavigation } from "../menu/StepNavigation";
@@ -72,7 +72,7 @@ export const SyncEntities: React.FC = () => {
       }
 
       const data: DiffResponse = await response.json();
-      const modifiedDiffHtml = injectResizeScript(
+      const modifiedDiffHtml = injectScripts(
         removeElementFromHtml(data.html, ".title"),
       );
 

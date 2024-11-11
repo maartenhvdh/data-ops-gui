@@ -13,11 +13,15 @@ export const removeElementFromHtml = (
 };
 
 /**
- * appends a script to an HTML, sending height information to parent window via message layer for dynamic resizing
+ * Adds <base> element to open iframe links in new window by default.
+ * Appends <script>, sending height information to parent window via message layer for dynamic resizing.
  */
-export const injectResizeScript = (htmlString: string): string => {
+export const injectScripts = (htmlString: string): string => {
   const parser = new DOMParser();
   const doc = parser.parseFromString(htmlString, "text/html");
+
+  const base = doc.createElement("base");
+  base.target = "_blank";
 
   const script = doc.createElement("script");
   script.type = "text/javascript";
@@ -46,5 +50,6 @@ export const injectResizeScript = (htmlString: string): string => {
       })();
     `;
   doc.body.appendChild(script);
+  doc.head.appendChild(base);
   return doc.documentElement.outerHTML;
 };

@@ -172,7 +172,7 @@ export const SyncDiff: React.FC = () => {
         id="diffFrame"
         srcDoc={diffResult}
         title="Diff Result"
-        sandbox="allow-scripts"
+        sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"
         ref={iframeRef}
       />
     </div>
