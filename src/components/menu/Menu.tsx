@@ -26,7 +26,7 @@ export const Menu: React.FC<MenuProps> = (props) => {
       <div className="menu-column">
         {[...props.actions.values()].map((action) => (
           <button
-            className={`button ${props.style ?? ""}`}
+            className={`button ${props.style ?? ""} ${(!action.subMenuActions && !action.route) ? "disabled" : ""}`}
             key={action.title}
             onClick={() => handleActionSelect(action)}
             onMouseEnter={() => setHoveredAction(action)}

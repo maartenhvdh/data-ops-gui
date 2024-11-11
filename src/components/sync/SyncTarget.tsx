@@ -58,7 +58,7 @@ export const SyncTarget: React.FC = () => {
     <form onSubmit={handleSubmit} autoComplete="off">
       <h2>Sync - Provide Target Information</h2>
       <br />
-      <label className="switch">
+      <label className="switch disabled">
         <input
           type="checkbox"
           checked={apiKeysMatch}

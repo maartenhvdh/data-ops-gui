@@ -54,7 +54,7 @@ export const SyncSource: React.FC = () => {
     <form name="source" onSubmit={handleSubmit} autoComplete="off">
       <h2>Sync - Provide Source Information</h2>
       <br />
-      <label className="switch">
+      <label className="switch disabled">
         <input
           type="checkbox"
           checked={useModelFile}
